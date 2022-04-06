@@ -73,8 +73,8 @@ func (n New) Error() (e *Exception) {
 
 // Execute...
 // Execute Try and Finally.
-// Return a Success and Error.
-func (n New) Execute() (s interface{}, e *Exception) {
+// Return a Success (interface{}) and Error.
+func (n New) Execute() (s Success, e *Exception) {
 	defer n.finally()
 	defer func() {
 		if r := recover(); r != nil {

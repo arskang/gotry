@@ -14,7 +14,7 @@ import "github.com/arskang/gotry"
 
 func main() {
     gotry.New{
-		Try: func() {
+		Try: func() gotry.Success {
 			err := true
 			fmt.Println("Start")
 			if err {
@@ -46,7 +46,7 @@ import "github.com/arskang/gotry"
 
 func main() {
     err :=  gotry.New{
-		Try: func() {
+		Try: func() gotry.Success {
 			err := true
 			fmt.Println("Start")
 			if err {
@@ -79,7 +79,7 @@ import "github.com/arskang/gotry"
 
 func main() {
     success, err :=  gotry.New{
-		Try: func()  gotry.Success {
+		Try: func() gotry.Success {
 			err := false
 			fmt.Println("Start")
 			if err {

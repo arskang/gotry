@@ -4,6 +4,9 @@ import (
 	"reflect"
 )
 
+// Success...
+type Success interface{}
+
 // Exception...
 type Exception struct {
 	Type  reflect.Type
@@ -15,7 +18,7 @@ type Exception struct {
 // Catch: Catch the error.
 // Finally: Execute to the end.
 type New struct {
-	Try     func()
+	Try     func() Success
 	Catch   func(*Exception)
 	Finally func()
 }
@@ -66,4 +69,23 @@ func (n New) Error() (e *Exception) {
 		}
 	}()
 	return n.try()
+}
+
+// Execute...
+// Execute Try and Finally.
+// Return a Success and Error.
+func (n New) Execute() (s interface{}, e *Exception) {
+	defer n.finally()
+	defer func() {
+		if r := recover(); r != nil {
+			e = &Exception{
+				Error: r,
+				Type:  reflect.TypeOf(r),
+			}
+		}
+	}()
+	if n.Try != nil {
+		s = n.Try()
+	}
+	return s, e
 }

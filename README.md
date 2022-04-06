@@ -22,7 +22,7 @@ func main() {
 			}
 			fmt.Println("End")
 		},
-		Catch: func(e *Exception) {
+		Catch: func(e *gotry.Exception) {
 			fmt.Println("Catch:", e.Type, e.Error)
 		},
 		Finally: func() {
@@ -37,6 +37,7 @@ Start
 Catch: string Error
 Finally
 ```
+
 2. Code: **.Error()**
 ```go
 package main
@@ -44,7 +45,7 @@ package main
 import "github.com/arskang/gotry"
 
 func main() {
-    err := New{
+    err :=  gotry.New{
 		Try: func() {
 			err := true
 			fmt.Println("Start")
@@ -52,6 +53,9 @@ func main() {
 				panic("Error")
 			}
 			fmt.Println("End")
+		},
+        Catch: func(e *gotry.Exception) {
+			// Not available
 		},
 		Finally: func() {
 			fmt.Println("Finally")
@@ -65,4 +69,39 @@ func main() {
 Start
 Finally
 Error:  &{string Error}
+```
+
+3. Code: **.Execute()**
+```go
+package main
+
+import "github.com/arskang/gotry"
+
+func main() {
+    success, err :=  gotry.New{
+		Try: func()  gotry.Success {
+			err := false
+			fmt.Println("Start")
+			if err {
+				panic("Error")
+			}
+			return "End"
+		},
+        Catch: func(e *gotry.Exception) {
+			// Not available
+		},
+        Finally: func() {
+			fmt.Println("Finally")
+		},
+	}.Execute()
+	fmt.Println("Error:", err)
+	fmt.Println("Success:", success)
+}
+```
+
+```cmd
+Start
+Finally
+Error: <nil>
+Success: End
 ```
